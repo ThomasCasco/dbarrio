@@ -4,36 +4,427 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserva tu turno - D´Barrio</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: bounce 1s ease-out;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+            margin-bottom: 40px;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            animation: none;
+        }
+
+        .services {
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .services h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .services-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateX(10px);
+        }
+
+        .service-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            fill: #667eea;
+        }
+
+        .social-link {
+            display: inline-block;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+            animation: fadeInUp 0.8s ease-out 0.9s both;
+        }
+
+        .social-link:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            fill: #667eea;
+        }
+
+        .footer {
+            color: #888;
+            font-size: 0.9rem;
+            animation: fadeInUp 0.8s ease-out 1.2s both;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #764ba2;
+        }
+
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            height: 600px;
+            width: 350px;
+            max-height: 80vh;
+            max-width: 90vw;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .chat-widget {
+                width: 300px;
+                height: 500px;
+                bottom: 10px;
+                right: 10px;
+            }
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+    </style>
 </head>
-<body class="bg-blue-50 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full animate__animated animate__fadeIn">
-        <h1 class="text-4xl font-bold text-blue-700 mb-4 text-center animate__animated animate__bounceInDown">Reserva tu turno</h1>
-        <p class="text-blue-600 mb-6 text-center animate__animated animate__fadeInUp animate__delay-1s">¡Bienvenido a D´Barrio! Reserva tu turno fácilmente utilizando el formulario de abajo.</p>
-        <!-- <div class="flex justify-center mb-6 animate__animated animate__zoomIn animate__delay-2s">
-            <img src="tu-imagen-de-barberia.jpg" alt="Barbería Azul" class="rounded-lg shadow-lg w-64">
-        </div> -->
-        <div class="text-center animate__animated animate__fadeInUp animate__delay-3s">
-            <a href="https://calendly.com/dbarrio" class="bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-800 transition duration-300 animate__animated animate__pulse animate__infinite">Reservar ahora</a>
-        </div>
-        <div class="mt-8 text-center">
-            <h2 class="text-xl font-bold text-blue-700 mb-4">Nuestros Servicios</h2>
-            <ul class="text-left">
-                <li class="mb-2"><i class="fas fa-cut text-blue-700 mr-2"></i>Corte</li>
-                <li class="mb-2"><i class="fas fa-cut text-blue-700 mr-2"></i>Corte + Barba + Cejas</li>
-                <li class="mb-2"><i class="fas fa-tint text-blue-700 mr-2"></i>Reflejos - Color - Diseños lineas</li>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <div class="container">
+        <h1 class="title">Reserva tu turno</h1>
+        <p class="subtitle">¡Bienvenido a D´Barrio! Reserva tu turno fácilmente y disfruta de nuestros servicios profesionales.</p>
+        
+        <a href="https://calendly.com/dbarrio" class="cta-button" id="reserveBtn">
+            Reservar ahora
+        </a>
+        
+        <div class="services">
+            <h2>Nuestros Servicios</h2>
+            <ul class="services-list">
+                <li class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24">
+                        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 7V9C15 10.1 14.1 11 13 11V22H11V11C9.9 11 9 10.1 9 9V7H3V9C3 10.1 2.1 11 1 11V22H23V11C21.9 11 21 10.1 21 9Z"/>
+                    </svg>
+                    Corte
+                </li>
+                <li class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24">
+                        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 7V9C15 10.1 14.1 11 13 11V22H11V11C9.9 11 9 10.1 9 9V7H3V9C3 10.1 2.1 11 1 11V22H23V11C21.9 11 21 10.1 21 9Z"/>
+                    </svg>
+                    Corte + Barba + Cejas
+                </li>
+                <li class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24">
+                        <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6M12,8A4,4 0 0,0 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12A4,4 0 0,0 12,8Z"/>
+                    </svg>
+                    Reflejos - Color - Diseños líneas
+                </li>
             </ul>
         </div>
-        <div class="mt-8 text-center">
-            <a href="https://www.instagram.com/tu-barberia/" class="text-blue-700 hover:text-blue-800 transition duration-300">
-                <i class="fab fa-instagram fa-2x"></i>
-            </a>
-        </div>
-        <div class="mt-8 text-center text-gray-600">
-            <p>Desarrollado por <a href="https://www.zaires.com.ar" class="text-blue-600 hover:text-blue-800 transition duration-300">Zaires.Dev</a></p>
+        
+        <a href="https://www.instagram.com/tu-barberia/" class="social-link" target="_blank">
+            <svg class="social-icon" viewBox="0 0 24 24">
+                <path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/>
+            </svg>
+        </a>
+        
+        <div class="footer">
+            <p>Desarrollado por <a href="https://www.zaires.com.ar" target="_blank">Zaires</a></p>
         </div>
     </div>
+
+    
+
+    <script>
+        // Animación del botón de reserva
+        const reserveBtn = document.getElementById('reserveBtn');
+        
+        reserveBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px) scale(1.05)';
+        });
+        
+        reserveBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+
+        // Animación de los elementos de servicio
+        const serviceItems = document.querySelectorAll('.service-item');
+        
+        serviceItems.forEach((item, index) => {
+            item.style.animationDelay = `${0.8 + (index * 0.2)}s`;
+            item.classList.add('animate-fade-in');
+        });
+
+        // Efecto parallax suave para elementos flotantes
+        window.addEventListener('mousemove', function(e) {
+            const floatingElements = document.querySelectorAll('.floating-element');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            floatingElements.forEach((element, index) => {
+                const speed = (index + 1) * 0.5;
+                const xPos = (x - 0.5) * speed * 20;
+                const yPos = (y - 0.5) * speed * 20;
+                
+                element.style.transform = `translate(${xPos}px, ${yPos}px)`;
+            });
+        });
+
+        // Animación de entrada para elementos
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observar elementos para animaciones
+        document.querySelectorAll('.service-item, .social-link, .footer').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Efecto de click en el botón
+        reserveBtn.addEventListener('click', function(e) {
+            // Crear efecto de ondas
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.pointerEvents = 'none';
+            
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // CSS para el efecto ripple
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            .animate-fade-in {
+                opacity: 0;
+                transform: translateY(30px);
+                animation: fadeInUp 0.8s ease-out forwards;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
